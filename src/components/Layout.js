@@ -1,6 +1,7 @@
 import React from 'react'
 import Navbar from './Navbar'
 import './layout.css';
+import Footer from './Footer';
 
 export default function Layout({ children }) {
   return (
@@ -9,9 +10,7 @@ export default function Layout({ children }) {
       <div className="content">
         {children}
       </div>
-      <footer>
-        <p>Copyright 2022 preseedhere.com</p>
-      </footer>
+      <Footer />
     </div>
   )
 }
