@@ -11,6 +11,7 @@ module.exports = {
         trackingId: "123",
       },
     },
+    "gatsby-plugin-postcss",
     "gatsby-plugin-image",
     "gatsby-plugin-react-helmet",
     "gatsby-plugin-sitemap",
