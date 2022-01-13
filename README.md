@@ -1,2 +1,1 @@
-# preseedhere
-preseedhere.com
+Preseed here
