@@ -1,0 +1,66 @@
+.juice {
+  background-image: url('./jill-heyer-03ztkGdYWU8-unsplash.jpg');
+  /* todo: crop the image */
+  background-position: 120px -128px; 
+
+}
+
+.juice2 {
+background-image: url('./sergey-shmidt-koy6FlCCy5s-unsplash.jpg');
+color: white;
+}
+
+.juice3 {
+z-index: 10;
+position: relative;
+}
+
+.juice3::after {
+content: '';
+position: absolute;
+opacity: .2;
+z-index: -999;
+top: 0;
+right: 0;
+bottom: 0;
+left: 0;
+/* background-image: url('https://previews.123rf.com/images/olgasiv/olgasiv1403/olgasiv140300026/27343111-image-en-noir-sur-un-fond-blanc-dessin-de-l%C3%A9gumes-de-fruits-et-de-baies-.jpg'); */
+background-image: url('../images/luca-bravo-alS7ewQ41M8-unsplash.jpg');
+background-position: 0px 468px; 
+}
+
+.text-primary {
+  color: #f9b529;
+}
+
+.text-primary-lite {
+  color: #fac251;
+}
+
+.text-secondary {
+  color: #294356;
+}
+
+.text-secondary-lite {
+  color: #d5dee5;
+}
+
+.bg-primary {
+  background-color: #f9b529;
+}
+
+.bg-primary-lite {
+  background-color: #fac251;
+}
+
+.bg-secondary {
+  background-color: #294356;
+}
+
+.bg-secondary-lite {
+  background-color: #d5dee5;
+}
+
+.bg-cta-btn {
+  background-color: #74c010
+}
