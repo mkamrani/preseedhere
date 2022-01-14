@@ -16,8 +16,10 @@ export default function Pricing() {
               <img class="w-64" src="https://images01.nicepage.com/c461c07a441a5d220e8feb1a/3b242447f922540fbe750cab/fdf.jpg" alt="" />
               <div class="mt-4 text-green-600 text-center">
                 <h1 class="text-xl font-bold">Founder</h1>
-                <p class="mt-4 text-gray-600">$49.90 For posting a new product on Ready list</p>
+                <p class="mt-4 text-gray-600">$49.90 For posting a new product on Released list</p>
                 <p class="mt-4 text-gray-600">$19.90 For posting a new product on Beta list</p>
+                <hr />
+                <p class="mt-4 text-gray-600">Subscribe now and get %70 discount (next 2 weeks)</p>
                 <button class="mt-8 mb-4 py-2 px-14 rounded-full bg-green-600 text-white tracking-widest hover:bg-green-500 transition duration-200">Soon</button>
               </div>
             </div>

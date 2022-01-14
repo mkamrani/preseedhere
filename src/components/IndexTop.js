@@ -6,7 +6,8 @@ export default function IndexTop() {
       <div class="juice3 bg-gray-100 bg-opacity-90 py-10">
         <div class="container mx-auto px-4 flex flex-col lg:flex-row">
           <div class="juice relative lg:w-2/3 rounded-xl bg-secondary-lite bg-cover p-10">
-            <p class="text-secondary text-4xl font-semibold">Here for you <br />when you need it the most</p>
+            <p class="text-secondary text-4xl font-semibold">Community of pre-seed startups</p>
+            <p class="text-secondary text-2xl font-semibold">Here for you <br />when you need it the most</p>
             <p class="max-w-xs  mt-20 pr-10 text-secondary font-semibold mt-8">Subscribe for early access</p>
             {/* <input type="email" className="rounded-xl m-3 p-5 appearance-none text-gray-700 text-sm focus:outline-none" placeholder="Enter your email"/>
               <button class="mt-20 bg-cta-btn font-semibold px-8 py-2 rounded">Subscribe</button> */}
