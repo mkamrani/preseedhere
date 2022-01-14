@@ -8,7 +8,6 @@ import Logo from '../images/logo.png';
 
 
 const navigation = [
-  { name: 'PreSeedHere', href: '/', current: true },
   { name: 'Beta', href: '/beta', current: false },
   { name: 'Released', href: '/ready', current: false },
   { name: 'Investors', href: '/investors', current: false },
@@ -40,16 +39,20 @@ export default function Navbar() {
               </div>
               <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex-shrink-0 flex items-center">
-                  <img
-                    className="block lg:hidden h-8 w-auto"
-                    src={Logo}
-                    alt="Workflow"
-                  />
-                  <img
-                    className="hidden lg:block h-8 w-auto"
-                    src={Logo}
-                    alt="Workflow"
-                  />
+                  <Link
+                    to="/"
+                  >
+                    <img
+                      className="block lg:hidden h-8 w-auto"
+                      src={Logo}
+                      alt="Workflow"
+                    />
+                    <img
+                      className="hidden lg:block h-8 w-auto"
+                      src={Logo}
+                      alt="Workflow"
+                    />
+                  </Link>
                 </div>
                 <div className="hidden sm:block sm:ml-6">
                   <div className="flex space-x-4">
