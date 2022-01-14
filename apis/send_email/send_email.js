@@ -28,24 +28,28 @@ exports.handler = async function (event, context) {
     }
   }
 
-  const req = https.request(options, (res) => {
-    let data = '';
+  console.log(`sending`);
+  await httpRequest(options);
+  console.log(`sent`);
 
-    res.on('data', (chunk) => {
-      data += chunk;
-    });
+  // const req = https.request(options, (res) => {
+  //   let data = '';
 
-    res.on('end', () => {
-      console.log(JSON.parse(data));
-    });
+  //   res.on('data', (chunk) => {
+  //     data += chunk;
+  //   });
 
-  }).on("error", (err) => {
-    console.log("Error: ", err.message);
-  });
+  //   res.on('end', () => {
+  //     console.log(JSON.parse(data));
+  //   });
 
-  req.write(data);
-  req.end();
-  console.log(`sent the email`);
+  // }).on("error", (err) => {
+  //   console.log("Error: ", err.message);
+  // });
+
+  // req.write(data);
+  // req.end();
+  // console.log(`sent the email`);
 
   var response = {
     "statusCode": 200,
@@ -56,4 +60,31 @@ exports.handler = async function (event, context) {
     "body": "New subscription from: " + event.body.email
   }
   return response
+}
+
+function httpRequest(options) {
+  return new Promise((resolve, reject) => {
+     const req = http.request(options, (res) => {
+       if (res.statusCode < 200 || res.statusCode >= 300) {
+             return reject(new Error('statusCode=' + res.statusCode));
+         }
+         var body = [];
+         res.on('data', function(chunk) {
+             body.push(chunk);
+         });
+         res.on('end', function() {
+             try {
+                 body = JSON.parse(Buffer.concat(body).toString());
+             } catch(e) {
+                 reject(e);
+             }
+             resolve(body);
+         });
+     });
+     req.on('error', (e) => {
+       reject(e.message);
+     });
+     // send the request
+    req.end();
+ });
 }
