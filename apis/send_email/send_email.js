@@ -23,25 +23,28 @@ exports.handler = async function (event, context) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${process.env.TOKEN}`,
       'Content-Length': data.length
     }
   }
 
-  const req = https.request(options, res => {
-    console.log(`statusCode: ${res.statusCode}`)
+  const req = https.request(options, (res) => {
+    let data = '';
 
-    res.on('data', d => {
-      process.stdout.write(d)
-    })
-  })
+    res.on('data', (chunk) => {
+      data += chunk;
+    });
 
-  req.on('error', error => {
-    console.error(error)
+    res.on('end', () => {
+      console.log(JSON.parse(data));
+    });
+
+  }).on("error", (err) => {
+    console.log("Error: ", err.message);
   });
 
-  req.write(data)
-  req.end()
+  req.write(data);
+  req.end();
   console.log(`sent the email`);
 
   var response = {
