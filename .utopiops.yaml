@@ -1,0 +1,5 @@
+version: 1.0.0
+root_folder: apis
+functions:
+  send_email:
+    runtime: nodejs14.x

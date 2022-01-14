@@ -1,8 +1,31 @@
 import React from 'react'
+import { useForm } from 'react-hook-form';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Footer() {
+  const { register, handleSubmit, reset } = useForm();
+  const onSubmit = data => {
+    try {
+      fetch('https://pshfunc-03b1a1f9.functions.utopiops.com/send_email', {
+        method: 'POST',
+        mode: 'cors',
+        cache: 'no-cache',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+        },
+      });
+      reset();
+      toast("Thanks for subscribing for early access!")
+      console.log(`submitted the form`);
+    } catch (error) {
+      // handle server errors
+    }
+  };
   return (
     <footer className="flex justify-center px-4 text-gray-100 bg-gray-800">
+      <ToastContainer />
       <div className="container py-6">
         <h1 className="text-center text-lg font-bold lg:text-2xl">
           Get early access, <br /> before anyone else!
@@ -11,8 +34,10 @@ export default function Footer() {
         <div className="flex justify-center mt-6">
           <div className="bg-white rounded-lg">
             <div className="flex flex-wrap justify-between md:flex-row">
-              <input type="email" className="m-1 p-2 appearance-none text-gray-700 text-sm focus:outline-none" placeholder="Enter your email" />
-              <button className="w-full m-1 p-2 text-sm bg-gray-800 rounded-lg font-semibold uppercase lg:w-auto">subscribe</button>
+              <form onSubmit={handleSubmit(onSubmit)} method="post" >
+                <input {...register('email', { required: true })} type="email" className="m-1 p-2 appearance-none text-gray-700 text-sm focus:outline-none" placeholder="Enter your email" />
+                <button type="submit" className="w-full m-1 p-2 text-sm bg-gray-800 rounded-lg font-semibold uppercase lg:w-auto">subscribe</button>
+              </form>
             </div>
           </div>
         </div>
@@ -33,10 +58,10 @@ export default function Footer() {
         </div>
       </div>
       <div className="px-1 text-xs">
-          Credits:
-          <a href="https://www.freepik.com/vectors/business" alt="Business vector created by vectorjuice - www.freepik.com">freepik</a>
-          <a href="https://unsplash.com/photos/alS7ewQ41M8?utm_source=unsplash&utm_medium=referral&utm_content=creditShareLink">Unsplash</a>
-        </div>
+        Credits:
+        <a href="https://www.freepik.com/vectors/business" alt="Business vector created by vectorjuice - www.freepik.com">freepik</a>
+        <a href="https://unsplash.com/photos/alS7ewQ41M8?utm_source=unsplash&utm_medium=referral&utm_content=creditShareLink">Unsplash</a>
+      </div>
     </footer>
   )
 }
