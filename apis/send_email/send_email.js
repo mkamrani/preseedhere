@@ -1,5 +1,4 @@
 const axios = require('axios')
-const axios = require('axios')
 
 exports.handler = async function (event, context) {
   console.log(`email: ${event.body.email}`);
