@@ -1,6 +1,6 @@
 import React from 'react'
-import Layout from '../components/Layout'
-import MainRowCard from '../components/MainRowCard'
+import Layout from '../../components/Layout'
+import MainRowCard from '../../components/MainRowCard'
 
 export default function News() {
   return (
