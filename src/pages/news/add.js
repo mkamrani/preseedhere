@@ -18,6 +18,8 @@ import hljs from 'highlight.js'
 import 'highlight.js/styles/atom-one-light.css'
 
 import { useForm } from "react-hook-form";
+import { toast } from 'react-toastify';
+import axios from 'axios';
 
 
 
@@ -47,7 +49,6 @@ const mdParser = new MarkdownIt({
   .use(mark)
   .use(tasklists);
 
-// Finish!
 function handleEditorChange({ html, text }) {
   console.log('handleEditorChange', html, text);
 }
@@ -62,36 +63,64 @@ const handleImageUpload = (file) => {
   });
 };
 
-const handleGetMdValue = () => {
-  const content = mdEditor && console.log(mdEditor.getMdValue());
-}
+
 
 export default function AddNews() {
 
-  const { register, handleSubmit, formState: { errors } } = useForm();
-  const onSubmit = data => {
-    // data.content = handleGetMdValue();
-    console.log(data)
+  const [thumbnail, setThumbnail] = React.useState('');
+
+  const { register, handleSubmit, formState: { errors }, setValue, getValues } = useForm();
+  // submit the form with axios and show a toast message. Use await.
+  // Get the api base url from the environment variable
+  const onSubmit = async (data) => {
+    data.thumbnail = thumbnail;
+    setValue('thumbnail', data.thumbnail);
+    data.content = mdEditor && mdEditor.getMdValue();
+    const url = process.env.GATSBY_API_URL || 'http://localhost:8001';
+    try {
+      await axios.post(`${url}/news`, data);
+      toast.success('News added successfully!');
+    } catch (error) {
+      toast.error('Error adding news');
+    }
   };
 
   const validTags = ['startup', 'acquisition', 'finance', 'business', 'fund raising', 'investment', 'strategy', 'sales', 'technology'];
 
   return (
     <Layout>
-
-      {/* Add form with tailwind css with fields: title, content and tags and button save.
-      handle the form with react-hook-form and use the markdown editor with react-markdown-editor-lite.
-      */}
       <div className="flex flex-col items-center justify-center m-20">
         <h1 className="text-4xl font-bold">Add News</h1>
-        <form onSubmit={handleSubmit(onSubmit)} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        {/* Make the form width 2/3 of page */}
+        <form onSubmit={handleSubmit(onSubmit)}
+          className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="title">
               Title
             </label>
-            <input {...register("tags", { required: true })} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="title" type="text" placeholder="Title" />
+            <input {...register("title", { required: true })} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="title" type="text" placeholder="Title"/>
             {errors.tags && <p className="text-red-500 text-xs italic">Please enter a title</p>}
           </div>
+
+          {/* Add drag and drop image upload */}
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="image">
+              Image
+            </label>
+            <input {...register("image", { required: true })} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="image" type="file" placeholder="Image" 
+            onChange={async (e) => {
+              console.log(e.target.files[0])
+              // set thumbnail field to base64 of image
+              const base64 = await handleImageUpload(e.target.files[0]);
+              // setValue('thumbnail', base64);
+              setThumbnail(base64);
+            }}
+            />
+            {thumbnail && <img src={thumbnail} alt="image" />}
+            {errors.image && <p className="text-red-500 text-xs italic">Please enter a image</p>}
+          </div>
+
+
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="content">
               Content
@@ -110,15 +139,14 @@ export default function AddNews() {
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="tags">
               Tags
             </label>
-            <select {...register("tags", { required: true })} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="tags">
-              <option value="">Select tags</option>
+            <select multiple {...register("tags", { required: true })} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="tags">
               {validTags.map(tag => (
                 <option key={tag} value={tag}>{tag}</option>
               ))}
             </select>
             {errors.tags && <p className="text-red-500 text-xs italic">Please select a tag</p>}
           </div>
-          
+
           <div className="flex items-center justify-between">
             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
               Save
