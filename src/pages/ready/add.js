@@ -65,7 +65,7 @@ const handleImageUpload = (file) => {
 
 
 
-export default function AddNews() {
+export default function AddProduct() {
 
   const [thumbnail, setThumbnail] = React.useState('');
 
@@ -73,15 +73,16 @@ export default function AddNews() {
   // submit the form with axios and show a toast message. Use await.
   // Get the api base url from the environment variable
   const onSubmit = async (data) => {
+    data.isBeta = false;
     data.thumbnail = thumbnail;
     setValue('thumbnail', data.thumbnail);
     data.content = mdEditor && mdEditor.getMdValue();
     const url = process.env.GATSBY_API_URL || 'http://localhost:8001';
     try {
-      await axios.post(`${url}/news`, data);
-      toast.success('News added successfully!');
+      await axios.post(`${url}/product`, data);
+      toast.success('Product added successfully. It will be reviewed by admin. You will be notified once it is approved.');
     } catch (error) {
-      toast.error('Error adding news');
+      toast.error('Error adding product');
     }
   };
 
@@ -90,7 +91,7 @@ export default function AddNews() {
   return (
     <Layout>
       <div className="flex flex-col items-center justify-center m-20">
-        <h1 className="text-4xl font-bold">Add News</h1>
+        <h1 className="text-4xl font-bold">Add Product</h1>
         {/* Make the form width 2/3 of page */}
         <form onSubmit={handleSubmit(onSubmit)}
           className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
@@ -117,7 +118,7 @@ export default function AddNews() {
             }}
             />
             {thumbnail && <img src={thumbnail} alt="image" />}
-            {errors.image && <p className="text-red-500 text-xs italic">Please enter a image</p>}
+            {errors?.image && <p className="text-red-500 text-xs italic">Please enter a image</p>}
           </div>
 
 
