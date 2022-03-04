@@ -1,6 +1,6 @@
 module.exports = {
   siteMetadata: {
-    siteUrl: "https://www.yourdomain.tld",
+    siteUrl: "https://www.preseedhere.com",
     title: "PreSeedHere",
   },
   plugins: [
@@ -15,6 +15,7 @@ module.exports = {
     "gatsby-plugin-image",
     "gatsby-plugin-react-helmet",
     "gatsby-plugin-sitemap",
+    "gatsby-plugin-use-query-params",
     {
       resolve: "gatsby-plugin-manifest",
       options: {
