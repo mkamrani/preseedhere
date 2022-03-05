@@ -1,3 +1,4 @@
+import { Link } from 'gatsby'
 import React from 'react'
 
 export default function BetaProductRow({ thumbnail, title, id }) {
@@ -21,7 +22,9 @@ export default function BetaProductRow({ thumbnail, title, id }) {
                 </svg>
                 Members only
               </p>
-              <div class="text-black font-bold text-xl mb-2">{title}</div>
+              <div class="text-black font-bold text-xl mb-2">
+                <Link to={`/beta/details?id=${id}`}>{title}</Link>
+              </div>
               <p class="text-grey-darker text-base">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus quia, nulla! Maiores et perferendis eaque, exercitationem praesentium nihil.</p>
             </div>
             <div class="flex items-center">
