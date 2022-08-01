@@ -4,23 +4,16 @@ import Layout from '../../components/Layout'
 import MainRowCard from '../../components/MainRowCard'
 import Paginator from '../../components/Paginator'
 import ProductRow from './ProductRow'
+import {getRecords, updateRecord, deleteRecord, addRecord} from "../../services/crud.service";
 
-export default function Products() {
+export default function Product() {
 
-  // get the products from the server
-  const fetchProducts = async (page, perPage) => {
-    console.log(`page: ${page}, perPage: ${perPage}`);
-    const url = process.env.GATSBY_API_URL || 'http://localhost:8001';
-    try {
-      const response = await axios.get(`${url}/product?Page=${page}&PerPage=${perPage}`);
-      console.log(`response.data: ${JSON.stringify(response.data)}`);
-      console.log(`headers: ${JSON.stringify(response.headers)}`);
-      return {data: response.data, totalCount: response.headers['x-total-count']};
-    }
-    catch (error) {
-      console.log(error);
-      return [];
-    }
+  const projectTag = "zh2fEl4jSRwO6K5q";
+  const tableName = "released_products";
+
+  const fetchData = async (page, perPage) => {
+    const response = await getRecords(projectTag, tableName);
+    return { data: response || [], totalCount: response?.headers?.['x-total-count'] || 10 };
   }
 
   return (
@@ -28,7 +21,7 @@ export default function Products() {
       <div className="mx-auto flex items-center justify-center m-20">
         Products
       </div>
-      <Paginator ToRender={ProductRow} fetchData={fetchProducts} perPage={10}/>        
+      <Paginator ToRender={ProductRow} fetchData={fetchData} perPage={10} />
     </Layout>
   )
 }

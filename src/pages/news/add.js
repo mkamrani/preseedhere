@@ -19,9 +19,13 @@ import 'highlight.js/styles/atom-one-light.css'
 
 import { useForm } from "react-hook-form";
 import { toast } from 'react-toastify';
+import authService from '../../services/auth.service';
 import axios from 'axios';
+import { addRecord } from '../../services/crud.service';
+import { navigate } from 'gatsby';
 
 
+const projectTag = "zh2fEl4jSRwO6K5q";
 
 let mdEditor;
 
@@ -49,9 +53,7 @@ const mdParser = new MarkdownIt({
   .use(mark)
   .use(tasklists);
 
-function handleEditorChange({ html, text }) {
-  console.log('handleEditorChange', html, text);
-}
+
 const handleImageUpload = (file) => {
   return new Promise(resolve => {
     const reader = new FileReader();
@@ -63,27 +65,51 @@ const handleImageUpload = (file) => {
   });
 };
 
-
-
 export default function AddNews() {
 
-  const [thumbnail, setThumbnail] = React.useState('');
-
   const { register, handleSubmit, formState: { errors }, setValue, getValues } = useForm();
-  // submit the form with axios and show a toast message. Use await.
-  // Get the api base url from the environment variable
+  
   const onSubmit = async (data) => {
-    data.thumbnail = thumbnail;
-    setValue('thumbnail', data.thumbnail);
-    data.content = mdEditor && mdEditor.getMdValue();
-    const url = process.env.GATSBY_API_URL || 'http://localhost:8001';
+    let toSend = {
+      title: data.title
+    }
+    toSend.thumbnail = fileUrl;
+    toSend.content = mdEditor && mdEditor.getMdValue();
+    toSend.tags = data.tags.join(",");
+    toSend.submit_date = new Date();
+    console.log(`data`, JSON.stringify(toSend));
     try {
-      await axios.post(`${url}/news`, data);
-      toast.success('News added successfully!');
+      await addRecord(projectTag, 'news', toSend);
+      toast.success('News added successfully. It will be reviewed by admin. You will be notified once it is approved.');
+      navigate("/news")
     } catch (error) {
       toast.error('Error adding news');
     }
+
   };
+
+  const [fileUrl, setFileUrl] = React.useState('');
+
+  const uploadFile = (file) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('access', 'public')
+    axios.post(`https://api.dotenx.com/objectstore/project/${projectTag}/upload`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'Authorization': 'Bearer ' + authService().getToken()
+      },
+    }).then((resp) => {
+      if (resp.status === 200) {
+        console.log('File uploaded');
+      }
+      alert(resp.data.url);
+      setFileUrl(resp.data.url);
+      setValue('thumbnail', fileUrl);
+
+    });
+  };
+
 
   const validTags = ['startup', 'acquisition', 'finance', 'business', 'fund raising', 'investment', 'strategy', 'sales', 'technology'];
 
@@ -98,7 +124,7 @@ export default function AddNews() {
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="title">
               Title
             </label>
-            <input {...register("title", { required: true })} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="title" type="text" placeholder="Title"/>
+            <input {...register("title", { required: true })} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="title" type="text" placeholder="Title" />
             {errors?.title && <p className="text-red-500 text-xs italic">Please enter a title</p>}
           </div>
 
@@ -107,17 +133,17 @@ export default function AddNews() {
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="image">
               Image
             </label>
-            <input {...register("image", { required: true })} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="image" type="file" placeholder="Image" 
-            onChange={async (e) => {
-              console.log(e.target.files[0])
-              // set thumbnail field to base64 of image
-              const base64 = await handleImageUpload(e.target.files[0]);
-              // setValue('thumbnail', base64);
-              setThumbnail(base64);
-            }}
+            <input
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="image"
+              type="file"
+              placeholder="Image"
+              onChange={async (e) => {
+                await uploadFile(e.target.files[0]);
+              }}
             />
-            {thumbnail && <img src={thumbnail} alt="image" />}
-            {errors.image && <p className="text-red-500 text-xs italic">Please enter a image</p>}
+            {fileUrl && <img src={fileUrl} alt="image" />}
+            {errors?.image && <p className="text-red-500 text-xs italic">Please enter a image</p>}
           </div>
 
 

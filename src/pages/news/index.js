@@ -4,35 +4,16 @@ import Layout from '../../components/Layout'
 import MainRowCard from '../../components/MainRowCard'
 import Paginator from '../../components/Paginator'
 import NewsRow from './NewsRow'
+import {getRecords, updateRecord, deleteRecord, addRecord} from "../../services/crud.service";
 
 export default function News() {
 
-  // get the news from the server
-  const [news, setNews] = React.useState([])
-  React.useEffect(async () => {
-    const url = process.env.GATSBY_API_URL || 'http://localhost:8001';
-    try {
-      const response = await axios.get(`${url}/news`);
-      setNews(response.data);
-    }
-    catch (error) {
-      console.log(error);
-    }
-  }, [])
+  const projectTag = "zh2fEl4jSRwO6K5q";
+  const tableName = "news";
 
-  const fetchNews = async (page, perPage) => {
-    console.log(`page: ${page}, perPage: ${perPage}`);
-    const url = process.env.GATSBY_API_URL || 'http://localhost:8001';
-    try {
-      const response = await axios.get(`${url}/news?Page=${page}&PerPage=${perPage}`);
-      console.log(`response.data: ${JSON.stringify(response.data)}`);
-      console.log(`headers: ${JSON.stringify(response.headers)}`);
-      return {data: response.data, totalCount: response.headers['x-total-count']};
-    }
-    catch (error) {
-      console.log(error);
-      return [];
-    }
+  const fetchData = async (page, perPage) => {
+    const response = await getRecords(projectTag, tableName);
+    return { data: response || [], totalCount: response?.headers?.['x-total-count'] || 10 };
   }
 
   return (
@@ -40,7 +21,7 @@ export default function News() {
       <div className="mx-auto flex items-center justify-center m-20">
         News
       </div>
-      <Paginator ToRender={NewsRow} fetchData={fetchNews} perPage={10}/>        
+      <Paginator ToRender={NewsRow} fetchData={fetchData} perPage={10} />
     </Layout>
   )
 }

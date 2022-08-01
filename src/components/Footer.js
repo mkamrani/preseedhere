@@ -45,22 +45,17 @@ export default function Footer() {
         <hr className="h-px mt-6 bg-gray-700 border-none" />
         <div className="flex flex-col items-center justify-between mt-6 md:flex-row">
           <div>
-            <a href="#" className="text-xl font-bold">PreSeedHere</a>
+            <a href="#" className="text-xl font-bold">PreSeedHere</a> - powered by <a href="https://dotenx.com" target="blank" className="text-xl font-bold">DoTenX</a>
           </div>
           <div className="flex mt-4 md:m-0">
-            <div className="-mx-4">
+            {/* <div className="-mx-4">
               <a href="#" className="px-4 text-sm">About</a>
               <a href="#" className="px-4 text-sm">Blog</a>
               <a href="#" className="px-4 text-sm">News</a>
               <a href="#" className="px-4 text-sm">Contact</a>
-            </div>
+            </div> */}
           </div>
         </div>
-      </div>
-      <div className="px-1 text-xs">
-        Credits:
-        <a href="https://www.freepik.com/vectors/business" alt="Business vector created by vectorjuice - www.freepik.com">freepik</a>
-        <a href="https://unsplash.com/photos/alS7ewQ41M8?utm_source=unsplash&utm_medium=referral&utm_content=creditShareLink">Unsplash</a>
       </div>
     </footer>
   )

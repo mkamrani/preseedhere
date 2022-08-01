@@ -6,11 +6,11 @@ export default function Investors() {
   return (
     <Layout>
       <div className="mx-auto flex items-center justify-center m-20">
-        List of investors
+        Coming soon!
       </div>
+      {/* <MainRowCard />
       <MainRowCard />
-      <MainRowCard />
-      <MainRowCard />
+      <MainRowCard /> */}
     </Layout>
   )
 }
