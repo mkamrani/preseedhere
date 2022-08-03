@@ -3,16 +3,15 @@ import React from 'react'
 import Layout from '../../components/Layout'
 import MainRowCard from '../../components/MainRowCard'
 import Paginator from '../../components/Paginator'
+import { callPublicInteraction } from '../../services/interaction.service'
 import NewsRow from './NewsRow'
-import {getRecords, updateRecord, deleteRecord, addRecord} from "../../services/crud.service";
 
 export default function News() {
 
-  const projectTag = "zh2fEl4jSRwO6K5q";
-  const tableName = "news";
+  const endpoint = 'bd800c52-bdda-4ae6-b45b-347d102aee8b';
 
   const fetchData = async (page, perPage) => {
-    const response = await getRecords(projectTag, tableName);
+    const response = await callPublicInteraction(endpoint, {});
     return { data: response || [], totalCount: response?.headers?.['x-total-count'] || 10 };
   }
 

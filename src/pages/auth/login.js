@@ -4,8 +4,11 @@ import React, { useState } from 'react';
 import Logo from '../../images/logo.png';
 import { Link, navigate } from "gatsby";
 import authService from '../../services/auth.service';
+import useAuth from '../../hooks/useAuth';
 
-export default function Register() {
+export default function Login() {
+
+  const {isLoading, login} = useAuth();
 
   // Add the SignUp form
   const [form, setForm] = useState({
@@ -18,7 +21,7 @@ export default function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await authService().login(form.email, form.password);
+      await login(form.email, form.password);
       navigate("/");
     } catch (error) {
       alert(error.message);
@@ -67,6 +70,7 @@ export default function Register() {
                   placeholder="Password" type="password" />
               </div>
               <button
+                disabled={isLoading}
                 type="submit"
                 class="block w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-sky-400 border border-transparent rounded-lg active:bg-sky-400 hover:bg-sky-600 focus:outline-none focus:shadow-outline-blue"
               >

@@ -104,7 +104,7 @@ export default function AddBetaProduct() {
     axios.post(`https://api.dotenx.com/objectstore/project/${projectTag}/upload`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
-        'Authorization': 'Bearer ' + authService().getToken()
+        'Authorization': 'Bearer ' + getToken()
       },
     }).then((resp) => {
       if (resp.status === 200) {

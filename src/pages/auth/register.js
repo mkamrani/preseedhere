@@ -4,8 +4,11 @@ import React, { useState } from 'react';
 import Logo from '../../images/logo.png';
 import { Link, navigate } from "gatsby";
 import authService from '../../services/auth.service';
+import useAuth from '../../hooks/useAuth';
 
 export default function Register() {
+
+  const {isLoading, register} = useAuth();
 
   // Add the SignUp form
   const [form, setForm] = useState({
@@ -18,7 +21,8 @@ export default function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await authService().register(form.fullname, form.email, form.password);
+      // await authService().register(form.fullname, form.email, form.password);
+      await register(form.fullname, form.email, form.password);
       navigate("/auth/login");
     } catch (error) {
       alert(error.message);

@@ -19,7 +19,7 @@ export default function Pricing() {
                 <p class="mt-4 text-gray-600">$49.90 For posting a new product on Released list</p>
                 <p class="mt-4 text-gray-600">$19.90 For posting a new product on Beta list</p>
                 <hr />
-                <p class="mt-4 text-gray-600">Subscribe now and get %100 discount</p>
+                <p class="mt-4 text-gray-600">Subscribe now and get <span className='text-xl font-bold'>%100 discount</span></p>
                 <button class="mt-8 mb-4 py-2 px-14 rounded-full bg-green-600 text-white tracking-widest hover:bg-green-500 transition duration-200">Soon</button>
               </div>
             </div>

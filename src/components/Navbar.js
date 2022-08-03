@@ -5,9 +5,20 @@ import { Disclosure, Menu, Transition, Dialog } from '@headlessui/react'
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline'
 import { Link } from "gatsby";
 import Logo from '../images/logo.png';
+import useAuth from "../hooks/useAuth";
 
 
 const navigation = [
+  { name: 'Register', href: '/auth/register', current: false, hide: "isLoggedIn" },
+  { name: 'Sign In', href: '/auth/login', current: false, hide: "isLoggedIn" },
+  { name: 'Sign Out', href: '/auth/login', current: false, hide: "isLoggedOut" },
+  { name: 'Beta', href: '/beta', current: false },
+  { name: 'Released', href: '/ready', current: false },
+  { name: 'Investors', href: '/investors', current: false },
+  { name: 'News', href: '/news', current: false },
+  { name: 'Changelog', href: '/changelog', current: false },
+]
+const navigationLg = [
   { name: 'Beta', href: '/beta', current: false },
   { name: 'Released', href: '/ready', current: false },
   { name: 'Investors', href: '/investors', current: false },
@@ -21,6 +32,7 @@ function classNames(...classes) {
 
 export default function Navbar() {
 
+  const { isLoggedIn, logout } = useAuth();
 
 
   return (
@@ -59,7 +71,7 @@ export default function Navbar() {
                 </div>
                 <div className="hidden sm:block sm:ml-6">
                   <div className="flex space-x-4">
-                    {navigation.map((item) => (
+                    {navigationLg.map((item) => (
                       <Link
                         key={item.name}
                         to={item.href}
@@ -76,34 +88,46 @@ export default function Navbar() {
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <button
+                {isLoggedIn && <button
+                  onClick={() => logout()}
                   type="button"
                   className="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
                 >
-                  <Link
-                        to={'/auth/login'}
+                  Sign out
+                </button>
+                }
+                {!isLoggedIn &&
+                  <>
+                    <button
+                      type="button"
+                      className="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
+                    >
+                      <Link
+                        to='/auth/login'
                         className={classNames(
-                          'text-gray-300 hover:bg-gray-700 hover:text-white',
+                          'hidden lg:block text-gray-300 hover:bg-gray-700 hover:text-white',
                           'px-3 py-2 rounded-md text-sm font-medium'
                         )}
                       >
-                  Sign in
+                        Sign in
                       </Link>
-                </button>
-                <button
-                  type="button"
-                  className="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
-                >
-                  <Link
+                    </button>
+                    <button
+                      type="button"
+                      className="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
+                    >
+                      <Link
                         to={'/auth/register'}
                         className={classNames(
-                          'text-gray-300 hover:bg-gray-700 hover:text-white',
+                          'hidden lg:block bg-green-400 text-black hover:bg-gray-700 hover:text-white',
                           'px-3 py-2 rounded-md text-sm font-medium'
                         )}
                       >
-                  Try for free
+                        Try for free
                       </Link>
-                </button>
+                    </button>
+                  </>
+                }
                 {/* <button
                   type="button"
                   className="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
@@ -112,8 +136,8 @@ export default function Navbar() {
                   <BellIcon className="h-6 w-6" aria-hidden="true" />
                 </button> */}
 
-                {/* Profile dropdown */}
-                <Menu as="div" className="ml-3 relative">
+                {/* Profile dropdown - keep for later */}
+                {/* <Menu as="div" className="ml-3 relative">
                   <div>
                     <Menu.Button className="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                       <span className="sr-only">Open user menu</span>
@@ -166,7 +190,7 @@ export default function Navbar() {
                       </Menu.Item>
                     </Menu.Items>
                   </Transition>
-                </Menu>
+                </Menu> */}
               </div>
             </div>
           </div>
@@ -184,11 +208,14 @@ export default function Navbar() {
                   )}
                   aria-current={item.current ? 'page' : undefined}
                 >
-                  {item.name}
+                  <div className="px-1 py-1 ">
+                    {item.name}
+                  </div>
                 </Disclosure.Button>
               ))}
             </div>
           </Disclosure.Panel>
+
         </>
       )}
     </Disclosure>
