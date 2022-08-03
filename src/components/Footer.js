@@ -25,9 +25,9 @@ export default function Footer() {
   };
   return (
     <footer className="flex justify-center px-4 text-gray-100 bg-gray-800">
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       <div className="container py-6">
-        <h1 className="text-center text-lg font-bold lg:text-2xl">
+        {/* <h1 className="text-center text-lg font-bold lg:text-2xl">
           Get early access, <br /> before anyone else!
         </h1>
 
@@ -40,9 +40,9 @@ export default function Footer() {
               </form>
             </div>
           </div>
-        </div>
+        </div> */}
 
-        <hr className="h-px mt-6 bg-gray-700 border-none" />
+        {/* <hr className="h-px mt-6 bg-gray-700 border-none" /> */}
         <div className="flex flex-col items-center justify-between mt-6 md:flex-row">
           <div>
             <a href="#" className="text-xl font-bold">PreSeedHere</a> - powered by <a href="https://dotenx.com" target="blank" className="text-xl font-bold">DoTenX</a>
