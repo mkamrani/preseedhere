@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function MainRowCard() {
+export default function MainRowCard({thumbnail, title, likes}) {
   return (
     <div className="mx-auto flex items-center justify-center m-20">
       <div className="flex flex-col w-full bg-white rounded shadow-lg sm:w-3/4 md:w-1/2 lg:w-3/5">

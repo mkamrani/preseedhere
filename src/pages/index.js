@@ -13,26 +13,26 @@ import Pricing from "../components/Pricing"
 const IndexPage = () => {
   return (
     <Layout>
-      <div class="bg-white">
+      <div className="bg-white">
         <IndexTop />
         <IndexBenefitCardOneSided
           title="Find audience"
           body="Building for no audience is the risk you don't want to take!"
         >
-          <img class="object-cover rounded-xl h-full w-full" src={EmptyChairs} alt=""></img>
+          <img className="object-cover rounded-xl h-full w-full" src={EmptyChairs} alt=""></img>
         </IndexBenefitCardOneSided>
         <IndexBenefitCardOneSided
           title="Find investment opportunities"
           body="Finding the right startups to invest in, before anyone else is the best strategy to maximize the profit!"
           reverse={true}
         >
-          <img class="object-cover rounded-xl h-full w-full" src={Hands} alt=""></img>
+          <img className="object-cover rounded-xl h-full w-full" src={Hands} alt=""></img>
         </IndexBenefitCardOneSided>
         <IndexBenefitCardOneSided
           title="Find the tool you need"
           body="Being an early adopter gives you the chance to save money and get unmatched support!"
         >
-          <img class="object-cover rounded-xl h-full w-full" src={JumpTogether} alt=""></img>
+          <img className="object-cover rounded-xl h-full w-full" src={JumpTogether} alt=""></img>
         </IndexBenefitCardOneSided>
         <section>
           <Pricing />
